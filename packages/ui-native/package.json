@@ -11,5 +11,9 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "main": "./src/index.ts"
+  "main": "./src/index.ts",
+  "devDependencies": {
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "^5.9.3"
+  }
 }

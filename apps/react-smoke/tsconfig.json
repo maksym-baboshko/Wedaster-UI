@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true
   },
   "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules", "dist"]

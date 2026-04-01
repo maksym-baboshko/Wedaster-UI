@@ -241,7 +241,14 @@ importers:
 
   packages/typescript-config: {}
 
-  packages/ui-native: {}
+  packages/ui-native:
+    devDependencies:
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/ui-web:
     dependencies:
