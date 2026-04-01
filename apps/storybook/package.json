@@ -6,14 +6,14 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
-    "test:storybook": "test-storybook",
+    "test:storybook": "sh -c 'pnpm exec playwright install chromium >/tmp/wedaster-playwright.log 2>&1 && storybook dev --ci -p 6006 >/tmp/wedaster-storybook.log 2>&1 & pid=$!; trap \"kill $pid\" EXIT INT TERM; until curl -sf http://127.0.0.1:6006 >/dev/null; do sleep 1; done; test-storybook --url http://127.0.0.1:6006'",
     "lint": "eslint",
     "format": "prettier --write --ignore-path ../../.prettierignore \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@workspace/tokens": "workspace:*",
-    "@workspace/ui-web": "workspace:*",
+    "@wedaster/tokens": "workspace:*",
+    "@wedaster/ui-web": "workspace:*",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
@@ -31,6 +31,7 @@
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "eslint": "^9.39.2",
+    "playwright": "^1.59.0",
     "storybook": "^10.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.0.3"

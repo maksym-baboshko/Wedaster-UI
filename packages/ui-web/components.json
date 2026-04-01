@@ -11,11 +11,11 @@
   },
   "iconLibrary": "hugeicons",
   "aliases": {
-    "components": "@workspace/ui-web/components",
-    "utils": "@workspace/ui-web/lib/utils",
-    "hooks": "@workspace/ui-web/hooks",
-    "lib": "@workspace/ui-web/lib",
-    "ui": "@workspace/ui-web/components"
+    "components": "@wedaster/ui-web/components",
+    "utils": "@wedaster/ui-web/lib/utils",
+    "hooks": "@wedaster/ui-web/hooks",
+    "lib": "@wedaster/ui-web/lib",
+    "ui": "@wedaster/ui-web/components"
   },
   "rtl": false,
   "menuColor": "inverted-translucent",

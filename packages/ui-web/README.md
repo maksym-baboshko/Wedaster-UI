@@ -1,4 +1,4 @@
-# @workspace/ui-web
+# @wedaster/ui-web
 
 Buildable React web component library for Wedaster UI.
 
@@ -27,16 +27,23 @@ Buildable React web component library for Wedaster UI.
 ## Usage
 
 ```tsx
-import "@workspace/tokens/styles.css"
-import "@workspace/ui-web/styles.css"
+import "@wedaster/tokens/styles.css"
+import "@wedaster/ui-web/styles.css"
+import "@wedaster/ui-web/base.css"
 
-import { Button, Card, Input } from "@workspace/ui-web"
+import { Button, Card, Input } from "@wedaster/ui-web"
 ```
 
 Per-component imports are also available:
 
 ```tsx
-import { Button } from "@workspace/ui-web/components/button"
+import { Button } from "@wedaster/ui-web/components/primitives/button"
+```
+
+Generator-compatible flat imports are also available for generated code:
+
+```tsx
+import { Button } from "@wedaster/ui-web/components/button"
 ```
 
 ## Development Notes

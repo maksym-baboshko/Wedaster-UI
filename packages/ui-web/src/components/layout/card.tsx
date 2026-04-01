@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@workspace/ui-web/lib/utils"
+import { cn } from "@wedaster/ui-web/lib/utils"
 
 function Card({
   className,

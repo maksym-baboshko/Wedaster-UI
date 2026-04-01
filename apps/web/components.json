@@ -14,8 +14,8 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@workspace/ui-web/lib/utils",
-    "ui": "@workspace/ui-web/components"
+    "utils": "@wedaster/ui-web/lib/utils",
+    "ui": "@wedaster/ui-web/components"
   },
   "rtl": false,
   "menuColor": "inverted-translucent",

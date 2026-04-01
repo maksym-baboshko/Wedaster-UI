@@ -40,8 +40,24 @@ const config: StorybookConfig = {
       },
       resolve: {
         alias: {
-          "@workspace/ui-web": join(workspaceRoot, "packages/ui-web/src"),
-          "@workspace/tokens": join(workspaceRoot, "packages/tokens/src"),
+          "@wedaster/ui-web/styles.css": join(
+            workspaceRoot,
+            "packages/ui-web/src/styles/styles.css"
+          ),
+          "@wedaster/ui-web/base.css": join(
+            workspaceRoot,
+            "packages/ui-web/src/styles/base.css"
+          ),
+          "@wedaster/ui-web/globals.css": join(
+            workspaceRoot,
+            "packages/ui-web/src/styles/globals.css"
+          ),
+          "@wedaster/tokens/styles.css": join(
+            workspaceRoot,
+            "packages/tokens/src/styles.css"
+          ),
+          "@wedaster/ui-web": join(workspaceRoot, "packages/ui-web/src"),
+          "@wedaster/tokens": join(workspaceRoot, "packages/tokens/src"),
         },
       },
     })

@@ -1,4 +1,4 @@
-# @workspace/tokens
+# @wedaster/tokens
 
 Shared CSS design tokens for Wedaster UI packages and consumer apps.
 
@@ -13,7 +13,7 @@ Shared CSS design tokens for Wedaster UI packages and consumer apps.
 ## Usage
 
 ```tsx
-import "@workspace/tokens/styles.css"
+import "@wedaster/tokens/styles.css"
 ```
 
 ## Overriding Tokens

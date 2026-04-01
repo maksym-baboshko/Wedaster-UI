@@ -77,17 +77,24 @@ Individual app entrypoints:
 pnpm add @wedaster/ui-web @wedaster/tokens
 ```
 
+If your app does not already include Tailwind CSS v4 tooling, also install `tailwindcss` and `@tailwindcss/postcss`.
+
 ### Setup
 
-Import the tokens and the component stylesheet once in your app entry:
+Import the tokens, component layer, and optional global base layer once in your app entry:
 
 ```tsx
 // 1. Base design tokens (CSS custom properties)
 import "@wedaster/tokens/styles.css"
 
-// 2. Component styles (Tailwind utilities + base layer)
+// 2. Component styles (Tailwind utilities + component theme layer)
 import "@wedaster/ui-web/styles.css"
+
+// 3. Optional global base styles for body/* defaults
+import "@wedaster/ui-web/base.css"
 ```
+
+If you prefer the legacy all-in-one contract, `@wedaster/ui-web/globals.css` remains available as a compatibility alias for `styles.css` + `base.css`.
 
 If your app uses Tailwind CSS v4 and needs to compile the shared stylesheet via PostCSS:
 
@@ -103,6 +110,12 @@ import { Button, Card, Input, Badge } from "@wedaster/ui-web"
 
 // Or via sub-path imports (better tree-shaking in some bundlers)
 import { Button } from "@wedaster/ui-web/components/primitives/button"
+```
+
+Generator-created code may also use the flat compatibility path:
+
+```tsx
+import { Button } from "@wedaster/ui-web/components/button"
 ```
 
 ### Example Usage
@@ -132,7 +145,9 @@ Components reference tokens like `bg-primary`, `text-foreground`, `border-border
 ### Current Token Structure
 
 ```
-packages/tokens/src/styles.css   ← Base CSS custom properties
+packages/tokens/src/styles.css         ← Default theme token values
+packages/ui-web/src/styles/styles.css  ← Component/theme layer
+packages/ui-web/src/styles/base.css    ← Optional global base layer
 ```
 
 Tokens are defined for both light mode (`:root`) and dark mode (`.dark`) using OKLch colors:
@@ -156,8 +171,8 @@ Tokens are defined for both light mode (`:root`) and dark mode (`.dark`) using O
 
 ```
 packages/
-  tokens/           ← Base/reset values (minimal, consumed internally)
-  theme-default/    ← First design system (current green brand)
+  tokens/           ← Current default theme token package
+  theme-default/    ← Future extracted default theme package
   theme-[brand-x]/  ← Future: completely different visual language
   ui-web/           ← Components — zero per-theme code
 ```
@@ -171,6 +186,7 @@ Each theme package:
 // Instead of @wedaster/tokens/styles.css:
 import "@wedaster/theme-default/styles.css"
 import "@wedaster/ui-web/styles.css"
+import "@wedaster/ui-web/base.css"
 ```
 
 ### Runtime Theme Switching (Optional)
@@ -235,19 +251,19 @@ Override any token after importing the stylesheet:
 
    ```ts
    // packages/ui-web/src/index.ts
-   export { MyComponent } from "./components/category/my-component/my-component"
+   export { MyComponent } from "./components/category/my-component"
    ```
 
 4. Add a Storybook story file:
 
    ```
-   packages/ui-web/src/components/category/my-component/my-component.stories.tsx
+   packages/ui-web/src/components/category/my-component.stories.tsx
    ```
 
 5. Add a Vitest test file for any interactive behavior or public API:
 
    ```
-   packages/ui-web/src/components/category/my-component/my-component.test.tsx
+   packages/ui-web/src/components/category/my-component.test.tsx
    ```
 
 6. Verify everything passes:
@@ -303,13 +319,13 @@ Override any token after importing the stylesheet:
 
 ```bash
 pnpm test                          # Run all tests once
-pnpm --filter ui-web test:watch    # Watch mode for component development
-pnpm --filter ui-web test:coverage # Generate coverage report (lcov + text)
+pnpm --filter @wedaster/ui-web test:watch    # Watch mode for component development
+pnpm --filter @wedaster/ui-web test:coverage # Generate coverage report (lcov + text, minimum 80% on statements/branches/functions/lines)
 ```
 
 Tests live alongside components:
 ```
-button/
+primitives/
   button.tsx
   button.stories.tsx
   button.test.tsx
@@ -320,6 +336,7 @@ button/
 ```bash
 pnpm --filter storybook dev        # Interactive component explorer
 pnpm --filter storybook build      # Build static site for deployment
+pnpm --filter storybook test:storybook
 ```
 
 Storybook is configured with:
@@ -347,8 +364,10 @@ pnpm --filter react-smoke build
 | `pnpm format` | Prettier format across the workspace |
 | `pnpm typecheck` | TypeScript checks across the workspace |
 | `pnpm test` | Run Vitest tests across the workspace |
+| `pnpm --filter @wedaster/ui-web test:coverage` | Generate UI package coverage report (minimum 80% across all core coverage metrics) |
 | `pnpm --filter storybook dev` | Start Storybook on port 6006 |
 | `pnpm --filter storybook build` | Build Storybook static site |
+| `pnpm --filter storybook test:storybook` | Run Storybook interaction/docs test runner |
 | `pnpm --filter react-smoke build` | Verify library compiles in Vite |
 | `pnpm changeset` | Create a new changeset for release |
 | `pnpm version` | Apply version bumps + update changelogs |
@@ -383,8 +402,7 @@ Releases are managed with [Changesets](https://github.com/changesets/changesets)
 
 Before publishing for the first time:
 
-1. Set `"access": "public"` in `.changeset/config.json` (currently set to `"restricted"` — **must be changed for public npm packages**).
-2. Add `NPM_TOKEN` as a GitHub repository secret.
+1. Add `NPM_TOKEN` as a GitHub repository secret.
 
 ---
 
@@ -392,13 +410,9 @@ Before publishing for the first time:
 
 | Status | Item |
 |--------|------|
-| TODO | `changesets` access must be changed from `"restricted"` to `"public"` before first npm publish |
 | TODO | Pre-push git hook runs full build+test+typecheck — consider moving heavy checks to CI only |
-| TODO | No coverage thresholds enforced in CI |
-| TODO | `test:storybook` not yet wired into CI pipeline |
 | TODO | Bundle size not monitored — no CI check for regressions |
-| TODO | ESM-only output — evaluate adding CJS for legacy toolchain support |
-| TODO | No peer dependency declared for `tailwindcss` |
+| DECIDED | ESM-only output is intentional for v1 |
 | PLANNED | Extract `packages/theme-default` from current `packages/tokens` |
 | PLANNED | React Native components in `packages/ui-native` |
 

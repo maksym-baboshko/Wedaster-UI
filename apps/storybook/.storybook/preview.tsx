@@ -1,8 +1,9 @@
 import type { Preview } from "@storybook/react"
 import { withThemeByClassName } from "@storybook/addon-themes"
 
-import "../../../packages/tokens/src/styles.css"
-import "../../../packages/ui-web/src/styles/globals.css"
+import "@wedaster/tokens/styles.css"
+import "@wedaster/ui-web/styles.css"
+import "@wedaster/ui-web/base.css"
 
 const preview: Preview = {
   parameters: {

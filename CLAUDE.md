@@ -51,7 +51,7 @@ packages/
 | Validation (future) | zod |
 | Library build | tsup (ESM only, full `.d.ts`) |
 | Testing | Vitest 4 + React Testing Library + jsdom |
-| Component docs | Storybook 10 (react-vite, addon-docs, addon-a11y, addon-themes) |
+| Component docs | Storybook 10 (react-vite, addon-docs, addon-a11y, addon-themes, test-runner) |
 | Linting | ESLint + Prettier (prettier-plugin-tailwindcss) |
 | Git hooks | Husky (pre-commit: lint; pre-push: typecheck+lint+test+build) |
 | Versioning | Changesets |
@@ -99,10 +99,10 @@ Export the variants object as well as the component (consumers may need it for c
 ### Component structure convention
 
 ```
-packages/ui-web/src/components/<category>/<name>/
-  <name>.tsx            Component implementation
-  <name>.stories.tsx    Storybook stories
-  <name>.test.tsx       Vitest tests (for components with public API/behavior)
+packages/ui-web/src/components/<category>/<name>.tsx
+packages/ui-web/src/components/<category>/<name>.stories.tsx
+packages/ui-web/src/components/<category>/<name>.test.tsx
+packages/ui-web/src/components/<name>.ts          ← Optional flat re-export shim for generator compatibility
 ```
 
 ### `data-slot` attributes
@@ -114,7 +114,7 @@ Every component and its sub-components include `data-slot="<name>"` on the root 
 All interactive components wrap Radix UI primitives. Import from `radix-ui`:
 
 ```ts
-import { Root, Trigger, Content } from "radix-ui/react-dialog"
+import { Dialog as DialogPrimitive } from "radix-ui"
 ```
 
 ### OKLch design tokens
@@ -143,7 +143,17 @@ feedback/     Toaster (sonner wrapper)
 
 ### Current state
 
-All tokens are in `packages/tokens/src/styles.css`. Light mode in `:root`, dark mode in `.dark`.
+Consumers import styles in three layers:
+
+```tsx
+import "@wedaster/tokens/styles.css"  // design tokens
+import "@wedaster/ui-web/styles.css"  // component + theme layer
+import "@wedaster/ui-web/base.css"    // optional global base layer
+```
+
+`@wedaster/ui-web/globals.css` remains available as a compatibility alias for `styles.css` + `base.css`.
+
+All tokens live in `packages/tokens/src/styles.css`. Light mode is defined in `:root`, dark mode in `.dark`.
 
 Token categories: colors (background, foreground, primary, secondary, accent, muted, destructive, card, popover, border, input, ring, sidebar-*, chart-*), radius.
 
@@ -163,6 +173,8 @@ Each `theme-*` package exports a single CSS file with variable overrides. No bui
 
 Dark mode is toggled via `.dark` class on the root element (managed by `next-themes` in the Next.js app). Not via `prefers-color-scheme` media query.
 
+Portal-based components must inherit the active theme from tokens and should not hardcode a `dark` class internally.
+
 ---
 
 ## How to Add a Component
@@ -172,17 +184,21 @@ Dark mode is toggled via `.dark` class on the root element (managed by `next-the
    pnpm dlx shadcn@latest add <name> -c packages/ui-web
    ```
 
-2. Move to the correct category directory under `packages/ui-web/src/components/<category>/<name>/`.
+2. Move the implementation into `packages/ui-web/src/components/<category>/<name>.tsx`.
 
-3. Export from `packages/ui-web/src/index.ts`.
+3. Add or update the Storybook story at `packages/ui-web/src/components/<category>/<name>.stories.tsx`.
 
-4. Add story file (`<name>.stories.tsx`) with `tags: ["autodocs"]` and at minimum a `Default` and `AllVariants` story.
+4. Add or update the Vitest file at `packages/ui-web/src/components/<category>/<name>.test.tsx` for public behavior.
 
-5. Add test file (`<name>.test.tsx`) covering rendering, keyboard interaction, and disabled states if applicable.
+5. Export the component from `packages/ui-web/src/index.ts`.
 
-6. Run the full quality gate:
+6. Add the stable category entry to `packages/ui-web/tsup.config.ts`.
+
+7. If the component should work with generator-created flat imports, add a thin shim at `packages/ui-web/src/components/<name>.ts`.
+
+8. Run the full quality gate:
    ```bash
-   pnpm lint && pnpm typecheck && pnpm test && pnpm build
+   pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm --filter storybook test:storybook
    ```
 
 ---
@@ -230,12 +246,13 @@ pnpm lint                          # ESLint workspace
 pnpm format                        # Prettier workspace
 pnpm typecheck                     # TypeScript workspace
 pnpm test                          # Vitest workspace
-pnpm --filter ui-web test:watch    # Watch mode
-pnpm --filter ui-web test:coverage # Coverage report
+pnpm --filter @wedaster/ui-web test:watch    # Watch mode
+pnpm --filter @wedaster/ui-web test:coverage # Coverage report (minimum 80% on statements/branches/functions/lines)
+pnpm --filter storybook test:storybook       # Storybook interaction/docs test runner
 
 # Build
 pnpm build                         # Build all
-pnpm --filter ui-web build         # Library only
+pnpm --filter @wedaster/ui-web build         # Library only
 
 # Release
 pnpm changeset                     # Create changeset
@@ -251,13 +268,15 @@ pnpm release                       # Build + publish to npm
 |------|---------|
 | `packages/ui-web/src/index.ts` | Barrel export — all public components exported here |
 | `packages/ui-web/src/lib/utils.ts` | `cn()` utility |
-| `packages/ui-web/src/styles/globals.css` | Tailwind imports, `@theme inline` mapping, base layer |
+| `packages/ui-web/src/styles/styles.css` | Component/theme layer (`@theme inline`, Tailwind imports, sources) |
+| `packages/ui-web/src/styles/base.css` | Optional global base layer (`body`, `*`) |
+| `packages/ui-web/src/styles/globals.css` | Compatibility alias for `styles.css` + `base.css` |
 | `packages/tokens/src/styles.css` | All CSS custom property token definitions |
 | `packages/ui-web/tsup.config.ts` | Library build config (entry points, ESM, declarations) |
 | `packages/ui-web/components.json` | shadcn CLI config |
 | `turbo.json` | Task dependency graph and caching rules |
 | `pnpm-workspace.yaml` | Workspace package globs |
-| `.changeset/config.json` | Changesets config — **`access` must be `"public"` for npm** |
+| `.changeset/config.json` | Changesets config — linked publishable packages + public access |
 | `.github/workflows/ci.yml` | CI pipeline (typecheck → lint → test → build) |
 | `.github/workflows/release.yml` | Release automation via Changesets action |
 | `.husky/pre-push` | Pre-push gate: typecheck + lint + test + build |
@@ -273,4 +292,5 @@ pnpm release                       # Build + publish to npm
 - **Every component must have `data-slot` attributes** on its root element and sub-components.
 - **ESM only** — the library builds to ESM. Do not add CJS output without explicit discussion.
 - **React 19 peer dependency** — do not downgrade.
-- Before publishing to npm, `"access"` in `.changeset/config.json` must be set to `"public"`.
+- **Changesets access is already canonicalized** — keep `.changeset/config.json` on `"access": "public"` unless there is an explicit repo-wide decision to change the publishing model.
+- **Update documentation when behavior or contract changes** — if a task changes package names, public imports/exports, styling entrypoints, testing requirements, release workflow, or other developer-facing behavior, update the relevant docs in the same task (`README.md`, package READMEs, `AGENTS.md`, `CLAUDE.md`, or config-adjacent docs).

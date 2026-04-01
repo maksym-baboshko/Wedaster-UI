@@ -3,8 +3,8 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["@workspace/ui-web", "@workspace/tokens"]],
-  "access": "restricted",
+  "linked": [["@wedaster/ui-web", "@wedaster/tokens"]],
+  "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": ["web", "storybook", "react-smoke"]

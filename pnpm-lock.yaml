@@ -35,10 +35,10 @@ importers:
 
   apps/react-smoke:
     dependencies:
-      '@workspace/tokens':
+      '@wedaster/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
-      '@workspace/ui-web':
+      '@wedaster/ui-web':
         specifier: workspace:*
         version: link:../../packages/ui-web
       react:
@@ -81,10 +81,10 @@ importers:
 
   apps/storybook:
     dependencies:
-      '@workspace/tokens':
+      '@wedaster/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
-      '@workspace/ui-web':
+      '@wedaster/ui-web':
         specifier: workspace:*
         version: link:../../packages/ui-web
       react:
@@ -133,6 +133,9 @@ importers:
       eslint:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)
+      playwright:
+        specifier: ^1.59.0
+        version: 1.59.0
       storybook:
         specifier: ^10.3.3
         version: 10.3.3(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -151,10 +154,10 @@ importers:
       '@hugeicons/react':
         specifier: ^1.1.6
         version: 1.1.6(react@19.2.4)
-      '@workspace/tokens':
+      '@wedaster/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
-      '@workspace/ui-web':
+      '@wedaster/ui-web':
         specifier: workspace:*
         version: link:../../packages/ui-web
       next:
@@ -261,9 +264,6 @@ importers:
       '@hugeicons/react':
         specifier: ^1.1.6
         version: 1.1.6(react@19.2.4)
-      '@workspace/tokens':
-        specifier: workspace:*
-        version: link:../tokens
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1

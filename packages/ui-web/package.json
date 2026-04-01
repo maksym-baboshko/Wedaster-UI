@@ -1,8 +1,7 @@
 {
-  "name": "@workspace/ui-web",
+  "name": "@wedaster/ui-web",
   "version": "0.0.0",
   "type": "module",
-  "private": true,
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",
@@ -28,28 +27,39 @@
       "types": "./dist/lib/*.d.ts",
       "import": "./dist/lib/*.js"
     },
-    "./styles.css": "./src/styles/globals.css",
+    "./styles.css": "./src/styles/styles.css",
+    "./base.css": "./src/styles/base.css",
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist",
     "src/styles",
     "postcss.config.mjs"
   ],
   "peerDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "tailwindcss": "^4.2.2"
   },
   "peerDependenciesMeta": {
+    "@tailwindcss/postcss": {
+      "optional": false
+    },
     "react-dom": {
+      "optional": false
+    },
+    "tailwindcss": {
       "optional": false
     }
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.1.1",
     "@hugeicons/react": "^1.1.6",
-    "@workspace/tokens": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "radix-ui": "^1.4.3",

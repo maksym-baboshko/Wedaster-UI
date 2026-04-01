@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@workspace/ui-web": path.resolve(rootDir, "./src"),
+      "@wedaster/ui-web": path.resolve(rootDir, "./src"),
     },
   },
   test: {
@@ -21,7 +21,18 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "lcov"],
       include: ["src/components/**", "src/lib/**"],
-      exclude: ["src/**/*.stories.*"],
+      exclude: [
+        "src/**/*.stories.*",
+        "src/**/*.d.ts",
+        "src/**/.gitkeep",
+        "src/components/*.ts",
+      ],
+      thresholds: {
+        statements: 80,
+        branches: 80,
+        functions: 80,
+        lines: 80,
+      },
     },
   },
 })

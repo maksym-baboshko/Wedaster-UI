@@ -1,8 +1,9 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
 
-import "@workspace/tokens/styles.css"
-import "@workspace/ui-web/styles.css"
+import "@wedaster/tokens/styles.css"
+import "@wedaster/ui-web/styles.css"
+import "@wedaster/ui-web/base.css"
 import "./index.css"
 
 import {
@@ -14,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
   Input,
-} from "@workspace/ui-web"
+} from "@wedaster/ui-web"
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <div className="flex flex-col gap-2">
           <Badge variant="secondary">react-smoke</Badge>
           <h1 className="font-heading text-3xl font-medium">
-            @workspace/ui-web in plain React
+            @wedaster/ui-web in plain React
           </h1>
           <p className="text-sm text-muted-foreground">
             This app verifies that the package works outside Next.js and

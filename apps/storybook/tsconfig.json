@@ -6,10 +6,10 @@
     "moduleResolution": "Bundler",
     "types": ["node"],
     "paths": {
-      "@workspace/ui-web": ["../../packages/ui-web/src/index.ts"],
-      "@workspace/ui-web/*": ["../../packages/ui-web/src/*"],
-      "@workspace/tokens": ["../../packages/tokens/src"],
-      "@workspace/tokens/*": ["../../packages/tokens/src/*"]
+      "@wedaster/ui-web": ["../../packages/ui-web/src/index.ts"],
+      "@wedaster/ui-web/*": ["../../packages/ui-web/src/*"],
+      "@wedaster/tokens": ["../../packages/tokens/src"],
+      "@wedaster/tokens/*": ["../../packages/tokens/src/*"]
     }
   },
   "include": [".storybook/**/*.ts", ".storybook/**/*.tsx"],
