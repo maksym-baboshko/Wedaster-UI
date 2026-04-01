@@ -26,11 +26,26 @@ coverage
 out/
 build
 dist
+storybook-static
 
 
 # Debug
 npm-debug.log*
+pnpm-debug.log*
 
 # Misc
 .DS_Store
 *.pem
+
+# Editor directories
+.vscode/
+.idea/
+
+# Baseline build artifacts
+.baseline/
+
+# Turbo per-run logs (nested packages)
+**/.turbo/*.log
+
+# Per-package coverage outputs
+**/coverage/
