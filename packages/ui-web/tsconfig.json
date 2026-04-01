@@ -2,6 +2,8 @@
   "extends": "@workspace/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "declaration": false,
+    "declarationMap": false,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
