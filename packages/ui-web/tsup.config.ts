@@ -1,0 +1,33 @@
+import { defineConfig } from "tsup"
+
+export default defineConfig({
+  entry: {
+    "components/badge": "src/components/badge.tsx",
+    index: "src/index.ts",
+    "components/button": "src/components/button.tsx",
+    "components/card": "src/components/card.tsx",
+    "components/checkbox": "src/components/checkbox.tsx",
+    "components/dropdown-menu": "src/components/dropdown-menu.tsx",
+    "components/dialog": "src/components/dialog.tsx",
+    "components/input": "src/components/input.tsx",
+    "components/label": "src/components/label.tsx",
+    "components/popover": "src/components/popover.tsx",
+    "components/radio-group": "src/components/radio-group.tsx",
+    "components/select": "src/components/select.tsx",
+    "components/sheet": "src/components/sheet.tsx",
+    "components/skeleton": "src/components/skeleton.tsx",
+    "components/sonner": "src/components/sonner.tsx",
+    "components/switch": "src/components/switch.tsx",
+    "components/table": "src/components/table.tsx",
+    "components/tabs": "src/components/tabs.tsx",
+    "components/textarea": "src/components/textarea.tsx",
+    "components/tooltip": "src/components/tooltip.tsx",
+    "lib/utils": "src/lib/utils.ts",
+  },
+  format: ["esm"],
+  dts: true,
+  sourcemap: true,
+  clean: true,
+  external: ["react", "react-dom", "next"],
+  minify: false,
+})

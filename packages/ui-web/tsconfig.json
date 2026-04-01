@@ -1,0 +1,14 @@
+{
+  "extends": "@workspace/typescript-config/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@workspace/ui-web": ["./src/index.ts"],
+      "@workspace/ui-web/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "vitest.config.ts", "tsup.config.ts", "vitest.setup.ts"],
+  "exclude": ["node_modules", "dist"]
+}

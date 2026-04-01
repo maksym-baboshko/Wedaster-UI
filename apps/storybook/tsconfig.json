@@ -1,0 +1,17 @@
+{
+  "extends": "@workspace/typescript-config/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
+    "paths": {
+      "@workspace/ui-web": ["../../packages/ui-web/src/index.ts"],
+      "@workspace/ui-web/*": ["../../packages/ui-web/src/*"],
+      "@workspace/tokens": ["../../packages/tokens/src"],
+      "@workspace/tokens/*": ["../../packages/tokens/src/*"]
+    }
+  },
+  "include": [".storybook/**/*.ts", ".storybook/**/*.tsx"],
+  "exclude": ["node_modules", "storybook-static"]
+}
