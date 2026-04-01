@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./card"
-import { Button } from "./button"
+import { Button } from "../primitives/button"
 
 const meta = {
   title: "Layout/Card",

@@ -1,5 +1,5 @@
-export { Button, buttonVariants } from "./components/button"
-export { Badge, badgeVariants } from "./components/badge"
+export { Button, buttonVariants } from "./components/primitives/button"
+export { Badge, badgeVariants } from "./components/display/badge"
 export {
   Card,
   CardAction,
@@ -8,8 +8,8 @@ export {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./components/card"
-export { Checkbox } from "./components/checkbox"
+} from "./components/layout/card"
+export { Checkbox } from "./components/primitives/checkbox"
 export {
   Dialog,
   DialogClose,
@@ -21,7 +21,7 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from "./components/dialog"
+} from "./components/overlays/dialog"
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -38,9 +38,9 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./components/dropdown-menu"
-export { Input } from "./components/input"
-export { Label } from "./components/label"
+} from "./components/overlays/dropdown-menu"
+export { Input } from "./components/primitives/input"
+export { Label } from "./components/primitives/label"
 export {
   Popover,
   PopoverAnchor,
@@ -49,8 +49,8 @@ export {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "./components/popover"
-export { RadioGroup, RadioGroupItem } from "./components/radio-group"
+} from "./components/overlays/popover"
+export { RadioGroup, RadioGroupItem } from "./components/forms/radio-group"
 export {
   Select,
   SelectContent,
@@ -62,7 +62,7 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "./components/select"
+} from "./components/forms/select"
 export {
   Sheet,
   SheetClose,
@@ -74,10 +74,10 @@ export {
   SheetPortal,
   SheetTitle,
   SheetTrigger,
-} from "./components/sheet"
-export { Skeleton } from "./components/skeleton"
-export { Toaster } from "./components/sonner"
-export { Switch } from "./components/switch"
+} from "./components/overlays/sheet"
+export { Skeleton } from "./components/display/skeleton"
+export { Toaster } from "./components/feedback/sonner"
+export { Switch } from "./components/forms/switch"
 export {
   Table,
   TableBody,
@@ -87,19 +87,19 @@ export {
   TableHead,
   TableHeader,
   TableRow,
-} from "./components/table"
+} from "./components/display/table"
 export {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
   tabsListVariants,
-} from "./components/tabs"
-export { Textarea } from "./components/textarea"
+} from "./components/navigation/tabs"
+export { Textarea } from "./components/primitives/textarea"
 export {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./components/tooltip"
+} from "./components/overlays/tooltip"
 export { cn } from "./lib/utils"
