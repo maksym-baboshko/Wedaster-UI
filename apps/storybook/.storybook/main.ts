@@ -23,7 +23,8 @@ const config: StorybookConfig = {
       build: {
         chunkSizeWarningLimit: 1200,
         rollupOptions: {
-          onwarn(warning, warn) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onwarn(warning: any, warn: any) {
             if (warning.code === "MODULE_LEVEL_DIRECTIVE") {
               return
             }
