@@ -2,6 +2,7 @@
   "name": "@wedaster/ui-web",
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "build": "tsup",
     "build:watch": "tsup --watch",

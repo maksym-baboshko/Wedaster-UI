@@ -29,8 +29,10 @@ apps/
   react-smoke/       Vite + React smoke app — validates non-Next.js usage
 packages/
   ui-web/            Buildable React component library (main package)
+  theme-default/     Default Wedaster design system package
+  theme-obsidian/    Private placeholder for the next design system
   ui-native/         React Native scaffold (reserved for future work)
-  tokens/            Base CSS custom properties (design tokens foundation)
+  tokens/            Internal semantic token foundation
   eslint-config/     Shared ESLint configurations
   typescript-config/ Shared TypeScript configurations
 ```
@@ -74,18 +76,18 @@ Individual app entrypoints:
 ### Installation (external consumers)
 
 ```bash
-pnpm add @wedaster/ui-web @wedaster/tokens
+pnpm add @wedaster/ui-web @wedaster/theme-default
 ```
 
 If your app does not already include Tailwind CSS v4 tooling, also install `tailwindcss` and `@tailwindcss/postcss`.
 
 ### Setup
 
-Import the tokens, component layer, and optional global base layer once in your app entry:
+Import the theme package, component layer, and optional global base layer once in your app entry:
 
 ```tsx
-// 1. Base design tokens (CSS custom properties)
-import "@wedaster/tokens/styles.css"
+// 1. Choose a design system package
+import "@wedaster/theme-default/styles.css"
 
 // 2. Component styles (Tailwind utilities + component theme layer)
 import "@wedaster/ui-web/styles.css"
@@ -142,76 +144,29 @@ Wedaster UI is built around **CSS custom properties as the single source of trut
 
 Components reference tokens like `bg-primary`, `text-foreground`, `border-border` — not hardcoded colors. The tokens are defined in CSS files. Swap the CSS file, swap the entire visual design. No component changes needed.
 
-### Current Token Structure
+### Current Theme Architecture
 
 ```
-packages/tokens/src/styles.css         ← Default theme token values
-packages/ui-web/src/styles/styles.css  ← Component/theme layer
-packages/ui-web/src/styles/base.css    ← Optional global base layer
+packages/tokens/src/styles.css              ← Internal semantic token foundation
+packages/theme-default/src/styles.css       ← Current Wedaster default theme
+packages/theme-obsidian/src/styles.css      ← Private placeholder for the next theme
+packages/ui-web/src/styles/styles.css       ← Component/theme layer
+packages/ui-web/src/styles/base.css         ← Optional global base layer
 ```
 
-Tokens are defined for both light mode (`:root`) and dark mode (`.dark`) using OKLch colors:
-
-```css
-:root {
-  --primary: oklch(0.527 0.154 150.069);
-  --primary-foreground: oklch(0.982 0.018 155.826);
-  --background: oklch(1 0 0);
-  --radius: 0.5rem;
-  /* ... */
-}
-
-.dark {
-  --primary: oklch(0.448 0.119 151.328);
-  /* ... */
-}
-```
-
-### Planned Multi-Theme Architecture
-
-```
-packages/
-  tokens/           ← Current default theme token package
-  theme-default/    ← Future extracted default theme package
-  theme-[brand-x]/  ← Future: completely different visual language
-  ui-web/           ← Components — zero per-theme code
-```
-
-Each theme package:
-- Exports a single `styles.css` with CSS variable overrides
-- Requires no build step
-- Consumer imports only their theme:
+The token foundation defines the full semantic contract for both light mode (`:root`) and dark mode (`.dark`). Public `theme-*` packages bundle that foundation together with their overrides, so consumer apps import only a theme package:
 
 ```tsx
-// Instead of @wedaster/tokens/styles.css:
 import "@wedaster/theme-default/styles.css"
 import "@wedaster/ui-web/styles.css"
 import "@wedaster/ui-web/base.css"
 ```
 
-### Runtime Theme Switching (Optional)
+### Current Theme Package Model
 
-If a single app needs to switch between themes at runtime, scope each theme under a class:
-
-```css
-/* packages/theme-default/styles.css */
-.theme-default {
-  --primary: oklch(0.527 0.154 150.069);
-}
-
-/* packages/theme-corporate/styles.css */
-.theme-corporate {
-  --primary: oklch(0.4 0.08 240);
-}
-```
-
-```tsx
-<html className="theme-default">
-  {/* All components inherit the active theme */}
-</html>
-```
-
-No JavaScript theme provider needed for color-only themes.
+- `@wedaster/theme-default` is the canonical default theme package.
+- `@wedaster/theme-obsidian` exists only as a private scaffold for future work.
+- `@wedaster/tokens` remains in the monorepo as the internal semantic foundation used by theme packages, not by apps directly.
 
 ### Customizing Tokens in a Consumer App
 
@@ -276,13 +231,12 @@ Override any token after importing the stylesheet:
 
 ## Adding a New Theme
 
-> This workflow will be finalized when the first `theme-*` package is extracted.
-
 1. Create a new package:
 
    ```
    packages/theme-[name]/
      src/styles.css      ← Override CSS custom properties
+     README.md
      package.json
    ```
 
@@ -290,12 +244,20 @@ Override any token after importing the stylesheet:
 
    ```json
    {
-     "name": "@wedaster/theme-[name]",
-     "version": "0.0.1",
-     "exports": {
-       "./styles.css": "./src/styles.css"
-     }
-   }
+      "name": "@wedaster/theme-[name]",
+      "version": "0.0.1",
+      "type": "module",
+      "scripts": {
+        "build": "node ../../scripts/build-theme-css.mjs src/styles.css dist/styles.css",
+        "dev": "node ../../scripts/build-theme-css.mjs src/styles.css dist/styles.css --watch"
+      },
+      "dependencies": {
+        "@wedaster/tokens": "workspace:*"
+      },
+      "exports": {
+       "./styles.css": "./dist/styles.css"
+      }
+    }
    ```
 
 3. Define the token overrides in `src/styles.css`:
@@ -309,7 +271,15 @@ Override any token after importing the stylesheet:
    }
    ```
 
-4. Add to `.changeset/config.json` linked packages if it should version together with `ui-web`.
+4. If the theme is public, add it to `.changeset/config.json` linked packages with `@wedaster/ui-web`. If it is still a placeholder, keep it `private`.
+
+5. Build the bundled stylesheet before publishing:
+
+   ```bash
+   pnpm --filter @wedaster/theme-[name] build
+   ```
+
+Theme packages intentionally bundle the internal foundation from `@wedaster/tokens` into their published `dist/styles.css`, so consumer apps only import a concrete `theme-*` package.
 
 ---
 
@@ -379,7 +349,7 @@ pnpm --filter react-smoke build
 
 Releases are managed with [Changesets](https://github.com/changesets/changesets).
 
-**Publishable packages:** `@wedaster/ui-web`, `@wedaster/tokens`
+**Publishable packages:** `@wedaster/ui-web`, `@wedaster/theme-default`
 **Apps are not published:** `web`, `storybook`, `react-smoke`
 
 ### Steps
@@ -413,7 +383,7 @@ Before publishing for the first time:
 | TODO | Pre-push git hook runs full build+test+typecheck — consider moving heavy checks to CI only |
 | TODO | Bundle size not monitored — no CI check for regressions |
 | DECIDED | ESM-only output is intentional for v1 |
-| PLANNED | Extract `packages/theme-default` from current `packages/tokens` |
+| PLANNED | Implement real visual values for `packages/theme-obsidian` and make it publishable when ready |
 | PLANNED | React Native components in `packages/ui-native` |
 
 ---

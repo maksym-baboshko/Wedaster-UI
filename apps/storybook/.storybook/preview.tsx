@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react"
 import { withThemeByClassName } from "@storybook/addon-themes"
 
-import "@wedaster/tokens/styles.css"
+import "@wedaster/theme-default/styles.css"
 import "@wedaster/ui-web/styles.css"
 import "@wedaster/ui-web/base.css"
 

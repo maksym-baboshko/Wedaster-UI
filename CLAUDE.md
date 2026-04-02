@@ -22,13 +22,15 @@ apps/
 
 packages/
   ui-web/            Main component library (the publishable package)
+  theme-default/     Default Wedaster design system package
+  theme-obsidian/    Private placeholder for the next design system
   ui-native/         React Native scaffold — RESERVED for future work, do not modify
-  tokens/            Base CSS custom properties (design tokens)
+  tokens/            Internal semantic token foundation used by theme packages
   eslint-config/     Shared ESLint rules (base, react-internal, next)
   typescript-config/ Shared TypeScript configs (base, react-library, nextjs)
 ```
 
-**Published packages:** `@wedaster/ui-web`, `@wedaster/tokens`
+**Published packages:** `@wedaster/ui-web`, `@wedaster/theme-default`
 **Apps are private** and never published.
 
 ---
@@ -146,28 +148,29 @@ feedback/     Toaster (sonner wrapper)
 Consumers import styles in three layers:
 
 ```tsx
-import "@wedaster/tokens/styles.css"  // design tokens
-import "@wedaster/ui-web/styles.css"  // component + theme layer
-import "@wedaster/ui-web/base.css"    // optional global base layer
+import "@wedaster/theme-default/styles.css"  // active design system
+import "@wedaster/ui-web/styles.css"         // component + theme layer
+import "@wedaster/ui-web/base.css"           // optional global base layer
 ```
 
 `@wedaster/ui-web/globals.css` remains available as a compatibility alias for `styles.css` + `base.css`.
 
-All tokens live in `packages/tokens/src/styles.css`. Light mode is defined in `:root`, dark mode in `.dark`.
+`packages/tokens/src/styles.css` is now an internal semantic foundation, not the consumer-facing theme entry. Public `theme-*` packages import that foundation, override the brand-specific values, and publish a bundled `dist/styles.css`.
 
 Token categories: colors (background, foreground, primary, secondary, accent, muted, destructive, card, popover, border, input, ring, sidebar-*, chart-*), radius.
 
-### Planned multi-theme structure
+### Current multi-theme structure
 
 ```
 packages/
-  tokens/           ← Base/neutral values
-  theme-default/    ← First design system (current green brand)
+  tokens/           ← Internal semantic foundation
+  theme-default/    ← Publishable default Wedaster theme
+  theme-obsidian/   ← Private placeholder for the next theme
   theme-[name]/     ← Additional themes
   ui-web/           ← Components — no changes needed
 ```
 
-Each `theme-*` package exports a single CSS file with variable overrides. No build step required.
+Each `theme-*` package exports a single bundled CSS file. Use `scripts/build-theme-css.mjs` to inline the internal token foundation into `dist/styles.css` before publishing.
 
 ### Dark mode
 
@@ -222,13 +225,26 @@ Portal-based components must inherit the active theme from tokens and should not
    {
      "name": "@wedaster/theme-<name>",
      "version": "0.0.1",
-     "exports": { "./styles.css": "./src/styles.css" }
+     "type": "module",
+     "scripts": {
+       "build": "node ../../scripts/build-theme-css.mjs src/styles.css dist/styles.css",
+       "dev": "node ../../scripts/build-theme-css.mjs src/styles.css dist/styles.css --watch"
+     },
+     "dependencies": {
+       "@wedaster/tokens": "workspace:*"
+     },
+     "exports": { "./styles.css": "./dist/styles.css" }
    }
    ```
 
 3. Add to `pnpm-workspace.yaml` (already covered by `packages/*`).
 
 4. Add to `.changeset/config.json` linked array if it should version with `ui-web`.
+
+5. Build the bundled stylesheet before publishing:
+   ```bash
+   pnpm --filter @wedaster/theme-<name> build
+   ```
 
 ---
 
@@ -271,7 +287,10 @@ pnpm release                       # Build + publish to npm
 | `packages/ui-web/src/styles/styles.css` | Component/theme layer (`@theme inline`, Tailwind imports, sources) |
 | `packages/ui-web/src/styles/base.css` | Optional global base layer (`body`, `*`) |
 | `packages/ui-web/src/styles/globals.css` | Compatibility alias for `styles.css` + `base.css` |
-| `packages/tokens/src/styles.css` | All CSS custom property token definitions |
+| `packages/tokens/src/styles.css` | Internal semantic token foundation shared by theme packages |
+| `packages/theme-default/src/styles.css` | Current default Wedaster theme overrides |
+| `packages/theme-obsidian/src/styles.css` | Private scaffold for the next theme |
+| `scripts/build-theme-css.mjs` | Bundles theme CSS by inlining the internal token foundation |
 | `packages/ui-web/tsup.config.ts` | Library build config (entry points, ESM, declarations) |
 | `packages/ui-web/components.json` | shadcn CLI config |
 | `turbo.json` | Task dependency graph and caching rules |
@@ -294,3 +313,5 @@ pnpm release                       # Build + publish to npm
 - **React 19 peer dependency** — do not downgrade.
 - **Changesets access is already canonicalized** — keep `.changeset/config.json` on `"access": "public"` unless there is an explicit repo-wide decision to change the publishing model.
 - **Update documentation when behavior or contract changes** — if a task changes package names, public imports/exports, styling entrypoints, testing requirements, release workflow, or other developer-facing behavior, update the relevant docs in the same task (`README.md`, package READMEs, `AGENTS.md`, `CLAUDE.md`, or config-adjacent docs).
+- **Update ADRs when architecture changes** — if a task changes an important architectural decision such as package boundaries, theme model, build system, release strategy, testing architecture, or other long-lived repo structure, update the relevant file in `docs/adr/` or add a new ADR when the decision is genuinely new.
+- **Keep ADRs concise and decision-focused** — ADRs should stay short, practical records of `Context`, `Decision`, and `Consequences`, not duplicate the full README.

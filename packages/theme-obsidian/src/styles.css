@@ -1,0 +1,11 @@
+@import "@wedaster/tokens/styles.css";
+
+/* Obsidian theme scaffold. Keep this package private until real brand values exist. */
+
+:root {
+  /* TODO: define Obsidian light theme token overrides. */
+}
+
+.dark {
+  /* TODO: define Obsidian dark theme token overrides. */
+}

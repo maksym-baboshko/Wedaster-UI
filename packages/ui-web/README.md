@@ -27,12 +27,19 @@ Buildable React web component library for Wedaster UI.
 ## Usage
 
 ```tsx
-import "@wedaster/tokens/styles.css"
+import "@wedaster/theme-default/styles.css"
 import "@wedaster/ui-web/styles.css"
 import "@wedaster/ui-web/base.css"
 
 import { Button, Card, Input } from "@wedaster/ui-web"
 ```
+
+## Requirements
+
+- Install `tailwindcss` and `@tailwindcss/postcss` if your app does not already use Tailwind CSS v4.
+- Import a concrete theme package such as `@wedaster/theme-default/styles.css` before `@wedaster/ui-web/styles.css`.
+- `@wedaster/ui-web/base.css` is optional and only needed if you want the shared global `body` / `*` base layer.
+- For the full consumer setup, see the [root README](../../README.md#using-the-component-library).
 
 Per-component imports are also available:
 

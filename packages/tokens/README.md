@@ -1,24 +1,26 @@
 # @wedaster/tokens
 
-Shared CSS design tokens for Wedaster UI packages and consumer apps.
+Internal semantic token foundation for Wedaster UI theme packages.
 
 ## What Lives Here
 
 - `:root` and `.dark` custom properties
 - semantic surface colors such as `--background`, `--foreground`, `--card`
-- brand and feedback colors such as `--primary` and `--destructive`
+- neutral baseline values for semantic tokens such as `--primary` and `--destructive`
 - layout values such as `--radius`
 - chart and sidebar support tokens
 
-## Usage
+## Intended Usage
 
-```tsx
-import "@wedaster/tokens/styles.css"
+```css
+@import "@wedaster/tokens/styles.css";
 ```
 
-## Overriding Tokens
+This package is an internal foundation layer for `theme-*` packages. App consumers should import a concrete theme package such as `@wedaster/theme-default/styles.css`, not `@wedaster/tokens/styles.css`.
 
-Consumer apps can override tokens after importing the default stylesheet:
+## Overriding Tokens In A Theme Package
+
+Theme packages can import the foundation and then override semantic values:
 
 ```css
 :root {

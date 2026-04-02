@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["@wedaster/ui-web", "@wedaster/tokens"]],
+  "linked": [["@wedaster/ui-web", "@wedaster/theme-default"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

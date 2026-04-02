@@ -1,18 +1,19 @@
-# ADR 003: Separate Tokens Package
+# ADR 003: Internal Token Foundation With Public Theme Packages
 
 - Status: Accepted
-- Date: 2026-04-01
+- Date: 2026-04-02
 
 ## Context
 
-The original setup kept CSS variables inside the UI package, which coupled raw design tokens to React components.
+The original setup moved CSS variables out of the UI package, but apps still imported the token package directly. Wedaster UI now needs a clearer multi-theme model where component code stays theme-agnostic, themes can be published independently, and the lowest-level token foundation remains internal.
 
 ## Decision
 
-Move shared CSS custom properties into `@workspace/tokens` and have `@workspace/ui-web` consume them as a dependency.
+Keep shared semantic CSS custom properties in `@wedaster/tokens` as an internal foundation package. Publish concrete design systems as `theme-*` packages such as `@wedaster/theme-default`, and have apps import a public theme package together with `@wedaster/ui-web`.
 
 ## Consequences
 
-- Tokens can be reused without importing the React component package.
-- The consumer contract becomes explicit: tokens first, component styles second.
-- Future platforms such as native or docs tooling can reference the same design language baseline.
+- Component code remains independent from brand-specific visual values.
+- The consumer contract becomes explicit: choose a `theme-*` package first, then import `@wedaster/ui-web` styles.
+- `@wedaster/tokens` can evolve as a shared semantic foundation without becoming a public app-facing theme contract.
+- Additional themes can be scaffolded without changing component implementation.

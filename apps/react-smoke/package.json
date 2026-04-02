@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@wedaster/tokens": "workspace:*",
+    "@wedaster/theme-default": "workspace:*",
     "@wedaster/ui-web": "workspace:*",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

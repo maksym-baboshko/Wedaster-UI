@@ -52,11 +52,27 @@ const config: StorybookConfig = {
             workspaceRoot,
             "packages/ui-web/src/styles/globals.css"
           ),
+          "@wedaster/theme-default/styles.css": join(
+            workspaceRoot,
+            "packages/theme-default/src/styles.css"
+          ),
+          "@wedaster/theme-obsidian/styles.css": join(
+            workspaceRoot,
+            "packages/theme-obsidian/src/styles.css"
+          ),
           "@wedaster/tokens/styles.css": join(
             workspaceRoot,
             "packages/tokens/src/styles.css"
           ),
           "@wedaster/ui-web": join(workspaceRoot, "packages/ui-web/src"),
+          "@wedaster/theme-default": join(
+            workspaceRoot,
+            "packages/theme-default/src"
+          ),
+          "@wedaster/theme-obsidian": join(
+            workspaceRoot,
+            "packages/theme-obsidian/src"
+          ),
           "@wedaster/tokens": join(workspaceRoot, "packages/tokens/src"),
         },
       },
