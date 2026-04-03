@@ -33,6 +33,42 @@ if (!("ResizeObserver" in globalThis)) {
   Reflect.set(globalThis, "ResizeObserver", ResizeObserver)
 }
 
+if (!("IntersectionObserver" in globalThis)) {
+  class IntersectionObserver {
+    root = null
+    rootMargin = ""
+    thresholds = []
+
+    observe() {}
+
+    unobserve() {}
+
+    disconnect() {}
+
+    takeRecords() {
+      return []
+    }
+  }
+
+  Reflect.set(globalThis, "IntersectionObserver", IntersectionObserver)
+}
+
+if (typeof window.matchMedia !== "function") {
+  const matchMedia = (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  })
+
+  Reflect.set(window, "matchMedia", matchMedia)
+  Reflect.set(globalThis, "matchMedia", matchMedia)
+}
+
 if (!HTMLElement.prototype.scrollIntoView) {
   HTMLElement.prototype.scrollIntoView = vi.fn()
 }

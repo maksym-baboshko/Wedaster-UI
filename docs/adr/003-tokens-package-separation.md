@@ -1,19 +1,18 @@
-# ADR 003: Internal Token Foundation With Public Theme Packages
+# ADR 003: Single Runtime Package With Internal Styling Tokens
 
 - Status: Accepted
-- Date: 2026-04-02
+- Date: 2026-04-03
 
 ## Context
 
-The original setup moved CSS variables out of the UI package, but apps still imported the token package directly. Wedaster UI now needs a clearer multi-theme model where component code stays theme-agnostic, themes can be published independently, and the lowest-level token foundation remains internal.
+The earlier multi-theme package model added extra runtime packages and a split consumer contract before there was real product demand for multiple design systems. The repo focus is now full `shadcn` parity and one strong Wedaster design system.
 
 ## Decision
 
-Keep shared semantic CSS custom properties in `@wedaster/tokens` as an internal foundation package. Publish concrete design systems as `theme-*` packages such as `@wedaster/theme-default`, and have apps import a public theme package together with `@wedaster/ui-web`.
+Keep the active semantic tokens and public stylesheet entrypoints inside `@wedaster/ui-web`. Consumers import `@wedaster/ui-web/styles.css` and optionally `@wedaster/ui-web/base.css`. The token file remains internal implementation detail inside the package.
 
 ## Consequences
 
-- Component code remains independent from brand-specific visual values.
-- The consumer contract becomes explicit: choose a `theme-*` package first, then import `@wedaster/ui-web` styles.
-- `@wedaster/tokens` can evolve as a shared semantic foundation without becoming a public app-facing theme contract.
-- Additional themes can be scaffolded without changing component implementation.
+- The public styling contract becomes simpler and easier to onboard: one runtime package, one stylesheet entrypoint family.
+- Component code stays token-driven without exposing a separate token package to consumers.
+- Future multi-design-system support is not ruled out, but it now requires a new explicit architecture decision instead of living as dormant scaffolding.

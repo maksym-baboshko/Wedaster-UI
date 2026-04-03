@@ -1,5 +1,4 @@
 ---
-"@wedaster/theme-default": minor
 "@wedaster/ui-web": minor
 ---
 

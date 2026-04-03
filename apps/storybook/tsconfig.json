@@ -7,9 +7,7 @@
     "types": ["node"],
     "paths": {
       "@wedaster/ui-web": ["../../packages/ui-web/src/index.ts"],
-      "@wedaster/ui-web/*": ["../../packages/ui-web/src/*"],
-      "@wedaster/tokens": ["../../packages/tokens/src"],
-      "@wedaster/tokens/*": ["../../packages/tokens/src/*"]
+      "@wedaster/ui-web/*": ["../../packages/ui-web/src/*"]
     }
   },
   "include": [".storybook/**/*.ts", ".storybook/**/*.tsx"],

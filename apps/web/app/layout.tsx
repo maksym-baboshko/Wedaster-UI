@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
-import "@wedaster/theme-default/styles.css"
 import "@wedaster/ui-web/styles.css"
 import "@wedaster/ui-web/base.css"
 import { ThemeProvider } from "@/components/theme-provider"

@@ -1,7 +1,6 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
 
-import "@wedaster/theme-default/styles.css"
 import "@wedaster/ui-web/styles.css"
 import "@wedaster/ui-web/base.css"
 import "./index.css"
