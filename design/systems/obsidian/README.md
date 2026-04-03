@@ -136,10 +136,10 @@ Obsidian follows the multi-theme architecture described in [CLAUDE.md](../../CLA
 packages/
   tokens/              Base/neutral token values
   theme-obsidian/      Obsidian CSS variable overrides (planned)
-  ui-web/              Components — no changes needed
+  ui/                  Components — no changes needed
 ```
 
-The theme works by overriding CSS custom properties. Components in `ui-web` remain untouched.
+The theme works by overriding CSS custom properties. Components in `ui` remain untouched.
 
 ## Design file structure
 

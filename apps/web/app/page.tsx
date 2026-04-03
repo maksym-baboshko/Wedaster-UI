@@ -1,4 +1,4 @@
-import { Button } from "@wedaster/ui-web"
+import { Button } from "@wedaster/ui"
 
 export default function Page() {
   return (

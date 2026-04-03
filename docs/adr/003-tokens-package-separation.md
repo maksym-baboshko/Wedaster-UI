@@ -9,7 +9,7 @@ The earlier multi-theme package model added extra runtime packages and a split c
 
 ## Decision
 
-Keep the active semantic tokens and public stylesheet entrypoints inside `@wedaster/ui-web`. Consumers import `@wedaster/ui-web/styles.css` and optionally `@wedaster/ui-web/base.css`. The token file remains internal implementation detail inside the package.
+Keep the active semantic tokens and public stylesheet entrypoints inside `@wedaster/ui`. Consumers import `@wedaster/ui/styles.css` and optionally `@wedaster/ui/base.css`. The token file remains internal implementation detail inside the package.
 
 ## Consequences
 

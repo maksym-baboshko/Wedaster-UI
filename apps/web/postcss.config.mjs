@@ -1,1 +1,1 @@
-export { default } from "@wedaster/ui-web/postcss.config"
+export { default } from "@wedaster/ui/postcss.config"

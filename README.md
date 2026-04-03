@@ -29,19 +29,19 @@ apps/
   react-smoke/       Vite + React smoke app for non-Next.js usage
 
 packages/
-  ui-web/            Main publishable React component library
+  ui/            Main publishable React component library
   eslint-config/     Shared ESLint configurations
   typescript-config/ Shared TypeScript configurations
 ```
 
-**Published package:** `@wedaster/ui-web`
+**Published package:** `@wedaster/ui`
 
 **Key decisions**
 
 - `pnpm` workspaces + Turborepo for monorepo orchestration and caching
 - `tsup` for ESM builds with full `.d.ts` output and per-component entry points
 - Tailwind CSS v4 + `@theme inline` for semantic utility mapping
-- Semantic CSS custom properties in OKLch, kept inside `ui-web`
+- Semantic CSS custom properties in OKLch, kept inside `ui`
 - Radix UI underneath interactive primitives
 - CVA for type-safe component variants
 - Changesets for versioning and changelog automation
@@ -72,7 +72,7 @@ Individual entrypoints:
 ### Installation
 
 ```bash
-pnpm add @wedaster/ui-web
+pnpm add @wedaster/ui
 ```
 
 If your app does not already include Tailwind CSS v4 tooling, also install:
@@ -86,41 +86,41 @@ pnpm add -D tailwindcss @tailwindcss/postcss
 Import the component stylesheet once at your app entry. Add the optional base layer only if you want shared `body` / `*` defaults.
 
 ```tsx
-import "@wedaster/ui-web/styles.css"
-import "@wedaster/ui-web/base.css"
+import "@wedaster/ui/styles.css"
+import "@wedaster/ui/base.css"
 ```
 
-`@wedaster/ui-web/globals.css` remains available as a compatibility alias for `styles.css + base.css`.
+`@wedaster/ui/globals.css` remains available as a compatibility alias for `styles.css + base.css`.
 
 If your app compiles the shared stylesheet through PostCSS:
 
 ```js
 // postcss.config.mjs
-export { default } from "@wedaster/ui-web/postcss.config"
+export { default } from "@wedaster/ui/postcss.config"
 ```
 
 ### Importing Components
 
 ```tsx
-import { Button, Card, Input, Badge } from "@wedaster/ui-web"
+import { Button, Card, Input, Badge } from "@wedaster/ui"
 ```
 
 Stable category-based subpath imports are also available:
 
 ```tsx
-import { Button } from "@wedaster/ui-web/components/primitives/button"
+import { Button } from "@wedaster/ui/components/primitives/button"
 ```
 
 Generator-created code may use the flat compatibility path:
 
 ```tsx
-import { Button } from "@wedaster/ui-web/components/button"
+import { Button } from "@wedaster/ui/components/button"
 ```
 
 ### Example
 
 ```tsx
-import { Button } from "@wedaster/ui-web"
+import { Button } from "@wedaster/ui"
 
 export function Demo() {
   return <Button>Click me</Button>
@@ -131,7 +131,7 @@ export function Demo() {
 
 ## Component Surface
 
-`@wedaster/ui-web` now covers all **56** official `shadcn` `registry:ui` components, normalized to Wedaster repo conventions.
+`@wedaster/ui` now covers all **56** official `shadcn` `registry:ui` components, normalized to Wedaster repo conventions.
 
 ### Primitives
 
@@ -219,15 +219,15 @@ Wedaster UI is a **single-design-system library**, not a multi-theme runtime pla
 The public styling contract is:
 
 ```tsx
-import "@wedaster/ui-web/styles.css"
-import "@wedaster/ui-web/base.css"
+import "@wedaster/ui/styles.css"
+import "@wedaster/ui/base.css"
 ```
 
 Internally:
 
-- `packages/ui-web/src/styles/tokens.css` contains the active Wedaster semantic tokens
-- `packages/ui-web/src/styles/styles.css` wires tokens into Tailwind via `@theme inline`
-- `packages/ui-web/src/styles/base.css` is the optional global base layer
+- `packages/ui/src/styles/tokens.css` contains the active Wedaster semantic tokens
+- `packages/ui/src/styles/styles.css` wires tokens into Tailwind via `@theme inline`
+- `packages/ui/src/styles/base.css` is the optional global base layer
 
 Components always reference semantic tokens such as `bg-primary`, `text-foreground`, `border-border`, and `ring-ring`. They should never hardcode raw color values in class names.
 
@@ -249,13 +249,13 @@ Consumer apps may still override tokens after importing the stylesheet:
 1. Scaffold with the shadcn CLI:
 
    ```bash
-   pnpm dlx shadcn@latest add <component-name> -c packages/ui-web
+   pnpm dlx shadcn@latest add <component-name> -c packages/ui
    ```
 
 2. Move the implementation into the correct category:
 
    ```text
-   packages/ui-web/src/components/<category>/<name>.tsx
+   packages/ui/src/components/<category>/<name>.tsx
    ```
 
 3. Normalize it to repo conventions:
@@ -267,9 +267,9 @@ Consumer apps may still override tokens after importing the stylesheet:
 4. Add or update:
    - Storybook story
    - Vitest test
-   - barrel export in `packages/ui-web/src/index.ts`
-   - tsup entry in `packages/ui-web/tsup.config.ts`
-   - optional flat shim in `packages/ui-web/src/components/<name>.ts`
+   - barrel export in `packages/ui/src/index.ts`
+   - tsup entry in `packages/ui/tsup.config.ts`
+   - optional flat shim in `packages/ui/src/components/<name>.ts`
 
 5. Run the quality gate:
 
@@ -277,7 +277,7 @@ Consumer apps may still override tokens after importing the stylesheet:
    pnpm lint
    pnpm typecheck
    pnpm test
-   pnpm --filter @wedaster/ui-web test:coverage
+   pnpm --filter @wedaster/ui test:coverage
    pnpm build
    pnpm --filter storybook test:storybook
    ```
@@ -291,12 +291,12 @@ Quality gates:
 - `pnpm lint`
 - `pnpm typecheck`
 - `pnpm test`
-- `pnpm --filter @wedaster/ui-web test:coverage`
+- `pnpm --filter @wedaster/ui test:coverage`
 - `pnpm build`
 - `pnpm --filter storybook build`
 - `pnpm --filter storybook test:storybook`
 
-Coverage thresholds in `@wedaster/ui-web` are enforced at **80% minimum** for:
+Coverage thresholds in `@wedaster/ui` are enforced at **80% minimum** for:
 
 - statements
 - branches
@@ -321,13 +321,13 @@ pnpm lint
 pnpm format
 pnpm typecheck
 pnpm test
-pnpm --filter @wedaster/ui-web test:watch
-pnpm --filter @wedaster/ui-web test:coverage
+pnpm --filter @wedaster/ui test:watch
+pnpm --filter @wedaster/ui test:coverage
 pnpm --filter storybook test:storybook
 
 # Build
 pnpm build
-pnpm --filter @wedaster/ui-web build
+pnpm --filter @wedaster/ui build
 pnpm --filter web build
 pnpm --filter react-smoke build
 
@@ -343,7 +343,7 @@ pnpm release
 
 Release automation uses Changesets and GitHub Actions.
 
-- `@wedaster/ui-web` is the only publishable runtime package
+- `@wedaster/ui` is the only publishable runtime package
 - `.changeset/config.json` keeps `"access": "public"` as canonical state
 - `release.yml` publishes after versioning/build succeeds
 

@@ -5,7 +5,7 @@
   "tsx": true,
   "tailwind": {
     "config": "",
-    "css": "../../packages/ui-web/src/styles/globals.css",
+    "css": "../../packages/ui/src/styles/globals.css",
     "baseColor": "neutral",
     "cssVariables": true
   },
@@ -14,8 +14,8 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@wedaster/ui-web/lib/utils",
-    "ui": "@wedaster/ui-web/components"
+    "utils": "@wedaster/ui/lib/utils",
+    "ui": "@wedaster/ui/components"
   },
   "rtl": false,
   "menuColor": "inverted-translucent",

@@ -1,9 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
-import "@wedaster/ui-web/styles.css"
-import "@wedaster/ui-web/base.css"
+import "@wedaster/ui/styles.css"
+import "@wedaster/ui/base.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@wedaster/ui-web/lib/utils"
+import { cn } from "@wedaster/ui/lib/utils"
 
 const geist = Geist({
   subsets: ["latin"],

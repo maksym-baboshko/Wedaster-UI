@@ -5,11 +5,11 @@
 
 ## Context
 
-`@wedaster/ui-web` must ship compiled JavaScript and TypeScript declarations instead of raw `.tsx` sources so it can be consumed outside Next.js and outside this monorepo. The package also exposes stable root imports, category-based subpath imports, and generator-compatible flat subpaths.
+`@wedaster/ui` must ship compiled JavaScript and TypeScript declarations instead of raw `.tsx` sources so it can be consumed outside Next.js and outside this monorepo. The package also exposes stable root imports, category-based subpath imports, and generator-compatible flat subpaths.
 
 ## Decision
 
-Use `tsup` as the build tool for `@wedaster/ui-web` to generate ESM output, declaration files, and per-component entrypoints from the component source.
+Use `tsup` as the build tool for `@wedaster/ui` to generate ESM output, declaration files, and per-component entrypoints from the component source.
 
 ## Consequences
 

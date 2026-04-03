@@ -4,8 +4,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@wedaster/ui-web": ["../../packages/ui-web/src/index.ts"],
-      "@wedaster/ui-web/*": ["../../packages/ui-web/src/*"]
+      "@wedaster/ui": ["../../packages/ui/src/index.ts"],
+      "@wedaster/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {

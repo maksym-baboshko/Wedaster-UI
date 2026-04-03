@@ -6,7 +6,7 @@ This is the primary context file for AI coding agents working in this repository
 
 ## What This Repo Is
 
-**Wedaster UI** is a pnpm + Turborepo monorepo centered on a single publishable React component library: `@wedaster/ui-web`.
+**Wedaster UI** is a pnpm + Turborepo monorepo centered on a single publishable React component library: `@wedaster/ui`.
 
 The library is built on:
 
@@ -17,7 +17,7 @@ The library is built on:
 
 The current repository focus is:
 
-1. keep `@wedaster/ui-web` aligned with the official `shadcn` `registry:ui` surface
+1. keep `@wedaster/ui` aligned with the official `shadcn` `registry:ui` surface
 2. build Wedaster’s own design language on top of that shared component foundation
 
 This repo is **public open-source**, versioned with Changesets, and currently targets **one active Wedaster design system**.
@@ -33,12 +33,12 @@ apps/
   react-smoke/       Vite + React — non-Next.js smoke app
 
 packages/
-  ui-web/            Main publishable component library
+  ui/            Main publishable component library
   eslint-config/     Shared ESLint rules
   typescript-config/ Shared TypeScript configs
 ```
 
-**Published package:** `@wedaster/ui-web`
+**Published package:** `@wedaster/ui`
 
 Apps are private and never published.
 
@@ -71,7 +71,7 @@ Apps are private and never published.
 
 ### `cn()`
 
-All class composition goes through `packages/ui-web/src/lib/utils.ts`.
+All class composition goes through `packages/ui/src/lib/utils.ts`.
 
 ```ts
 import { clsx, type ClassValue } from "clsx"
@@ -91,10 +91,10 @@ Variant-heavy components use CVA and export their variants object alongside the 
 ### Component structure
 
 ```text
-packages/ui-web/src/components/<category>/<name>.tsx
-packages/ui-web/src/components/<category>/<name>.stories.tsx
-packages/ui-web/src/components/<category>/<name>.test.tsx
-packages/ui-web/src/components/<name>.ts
+packages/ui/src/components/<category>/<name>.tsx
+packages/ui/src/components/<category>/<name>.stories.tsx
+packages/ui/src/components/<category>/<name>.test.tsx
+packages/ui/src/components/<name>.ts
 ```
 
 The flat `src/components/<name>.ts` file is only a thin generator-compat re-export shim.
@@ -113,7 +113,7 @@ Every component root and major compound part must expose a `data-slot="<name>"` 
 
 ## Component Surface
 
-`@wedaster/ui-web` currently mirrors all **56** official `shadcn` `registry:ui` components.
+`@wedaster/ui` currently mirrors all **56** official `shadcn` `registry:ui` components.
 
 ### Categories
 
@@ -132,17 +132,17 @@ Every component root and major compound part must expose a `data-slot="<name>"` 
 The public consumer contract is:
 
 ```tsx
-import "@wedaster/ui-web/styles.css"
-import "@wedaster/ui-web/base.css"
+import "@wedaster/ui/styles.css"
+import "@wedaster/ui/base.css"
 ```
 
-`@wedaster/ui-web/globals.css` remains a compatibility alias for `styles.css + base.css`.
+`@wedaster/ui/globals.css` remains a compatibility alias for `styles.css + base.css`.
 
 Internal styling files:
 
-- `packages/ui-web/src/styles/tokens.css` — active Wedaster semantic tokens
-- `packages/ui-web/src/styles/styles.css` — Tailwind imports, sources, `@theme inline`
-- `packages/ui-web/src/styles/base.css` — optional global base layer
+- `packages/ui/src/styles/tokens.css` — active Wedaster semantic tokens
+- `packages/ui/src/styles/styles.css` — Tailwind imports, sources, `@theme inline`
+- `packages/ui/src/styles/base.css` — optional global base layer
 
 Dark mode is driven by a `.dark` class on the root element.
 
@@ -155,7 +155,7 @@ There is no active multi-theme runtime architecture at the moment. Do not introd
 1. Scaffold with shadcn CLI:
 
    ```bash
-   pnpm dlx shadcn@latest add <name> -c packages/ui-web
+   pnpm dlx shadcn@latest add <name> -c packages/ui
    ```
 
 2. Move the implementation into the right category.
@@ -176,7 +176,7 @@ There is no active multi-theme runtime architecture at the moment. Do not introd
    pnpm lint
    pnpm typecheck
    pnpm test
-   pnpm --filter @wedaster/ui-web test:coverage
+   pnpm --filter @wedaster/ui test:coverage
    pnpm build
    pnpm --filter storybook test:storybook
    ```
@@ -199,13 +199,13 @@ pnpm lint
 pnpm format
 pnpm typecheck
 pnpm test
-pnpm --filter @wedaster/ui-web test:watch
-pnpm --filter @wedaster/ui-web test:coverage
+pnpm --filter @wedaster/ui test:watch
+pnpm --filter @wedaster/ui test:coverage
 pnpm --filter storybook test:storybook
 
 # Build
 pnpm build
-pnpm --filter @wedaster/ui-web build
+pnpm --filter @wedaster/ui build
 pnpm --filter web build
 pnpm --filter react-smoke build
 
@@ -215,7 +215,7 @@ pnpm version
 pnpm release
 ```
 
-Coverage thresholds for `@wedaster/ui-web` are a hard minimum of **80%** on statements, branches, functions, and lines.
+Coverage thresholds for `@wedaster/ui` are a hard minimum of **80%** on statements, branches, functions, and lines.
 
 ---
 
@@ -223,15 +223,15 @@ Coverage thresholds for `@wedaster/ui-web` are a hard minimum of **80%** on stat
 
 | File | Purpose |
 |------|---------|
-| `packages/ui-web/src/index.ts` | Public barrel export |
-| `packages/ui-web/src/lib/utils.ts` | `cn()` utility |
-| `packages/ui-web/src/styles/tokens.css` | Internal Wedaster semantic tokens |
-| `packages/ui-web/src/styles/styles.css` | Public component stylesheet |
-| `packages/ui-web/src/styles/base.css` | Optional global base layer |
-| `packages/ui-web/src/styles/globals.css` | Compatibility alias |
-| `packages/ui-web/tsup.config.ts` | Package build entrypoints |
-| `packages/ui-web/components.json` | shadcn CLI config |
-| `packages/ui-web/vitest.config.ts` | Test and coverage config |
+| `packages/ui/src/index.ts` | Public barrel export |
+| `packages/ui/src/lib/utils.ts` | `cn()` utility |
+| `packages/ui/src/styles/tokens.css` | Internal Wedaster semantic tokens |
+| `packages/ui/src/styles/styles.css` | Public component stylesheet |
+| `packages/ui/src/styles/base.css` | Optional global base layer |
+| `packages/ui/src/styles/globals.css` | Compatibility alias |
+| `packages/ui/tsup.config.ts` | Package build entrypoints |
+| `packages/ui/components.json` | shadcn CLI config |
+| `packages/ui/vitest.config.ts` | Test and coverage config |
 | `turbo.json` | Task graph and caching rules |
 | `.changeset/config.json` | Changesets config |
 | `.github/workflows/ci.yml` | CI pipeline |
@@ -242,8 +242,8 @@ Coverage thresholds for `@wedaster/ui-web` are a hard minimum of **80%** on stat
 ## Important Constraints
 
 - Do not introduce new runtime packages for themes, tokens, or native surfaces without an explicit repo-wide architectural decision.
-- Keep `@wedaster/ui-web` ESM-only unless the repo explicitly decides to support CJS.
-- Do not remove `zod` from `packages/ui-web`; it remains reserved for future API work.
+- Keep `@wedaster/ui` ESM-only unless the repo explicitly decides to support CJS.
+- Do not remove `zod` from `packages/ui`; it remains reserved for future API work.
 - Always use `cn()` for class composition.
 - Every component and major sub-component must keep `data-slot` attributes.
 - Never hardcode colors in component classes; use semantic token-mapped utilities.
