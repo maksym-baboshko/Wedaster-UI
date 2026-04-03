@@ -63,8 +63,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarSeparator,
+  SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "./sidebar"
 
 const meta = {
@@ -78,6 +79,16 @@ const meta = {
 export default meta
 
 type Story = StoryObj<typeof meta>
+
+function SidebarContentAction() {
+  const { open, toggleSidebar } = useSidebar()
+
+  return (
+    <Button variant="outline" onClick={toggleSidebar}>
+      {open ? "Hide sidebar" : "Open sidebar"}
+    </Button>
+  )
+}
 
 export const BreadcrumbPreview: Story = {
   render: () => (
@@ -186,16 +197,18 @@ export const PaginationPreview: Story = {
 
 export const SidebarPreview: Story = {
   render: () => (
-    <div className="max-w-5xl overflow-hidden rounded-3xl border">
-      <SidebarProvider defaultOpen>
-        <Sidebar>
-          <SidebarHeader className="gap-1">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-sm font-medium">Wedaster UI</p>
-              <SidebarTrigger />
-            </div>
+    <div className="relative max-w-5xl overflow-hidden rounded-3xl border bg-background">
+      <SidebarProvider defaultOpen className="!min-h-[28rem]">
+        <Sidebar className="!absolute !h-full">
+          <SidebarHeader className="gap-1 border-b">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive size="lg">
+                  <span>Wedaster UI</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarHeader>
-          <SidebarSeparator />
           <SidebarContent>
             <SidebarGroup>
               <SidebarGroupLabel>Workspace</SidebarGroupLabel>
@@ -223,14 +236,30 @@ export const SidebarPreview: Story = {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
+          <SidebarRail />
         </Sidebar>
-        <SidebarInset className="min-h-[24rem] p-8">
-          <div className="max-w-2xl space-y-3">
-            <h3 className="text-xl font-semibold">Sidebar composition</h3>
-            <p className="text-sm text-muted-foreground">
-              The preview keeps the component inside a constrained frame so the desktop variant stays visible in Storybook.
-            </p>
-            <Button variant="outline">Open content action</Button>
+        <SidebarInset className="min-h-[28rem] bg-background">
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger className="-ml-1" />
+            <p className="text-sm font-medium">Sidebar Preview</p>
+          </header>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+              <div className="aspect-video rounded-2xl bg-muted/50" />
+              <div className="aspect-video rounded-2xl bg-muted/50" />
+              <div className="aspect-video rounded-2xl bg-muted/50" />
+            </div>
+            <div className="min-h-[16rem] rounded-2xl border bg-card p-6">
+              <h3 className="text-xl font-semibold">Sidebar composition</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                The story now keeps the desktop sidebar anchored inside the
+                preview frame instead of the browser viewport, so the shell
+                behaves like a bounded layout.
+              </p>
+              <div className="mt-4">
+                <SidebarContentAction />
+              </div>
+            </div>
           </div>
         </SidebarInset>
       </SidebarProvider>
