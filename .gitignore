@@ -49,3 +49,6 @@ pnpm-debug.log*
 
 # Per-package coverage outputs
 **/coverage/
+
+# Agent's local data
+.claude/

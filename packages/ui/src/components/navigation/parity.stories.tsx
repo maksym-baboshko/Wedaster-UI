@@ -198,8 +198,8 @@ export const PaginationPreview: Story = {
 export const SidebarPreview: Story = {
   render: () => (
     <div className="relative max-w-5xl overflow-hidden rounded-3xl border bg-background">
-      <SidebarProvider defaultOpen className="!min-h-[28rem]">
-        <Sidebar className="!absolute !h-full">
+      <SidebarProvider defaultOpen className="min-h-[28rem]!">
+        <Sidebar className="absolute! h-full!">
           <SidebarHeader className="gap-1 border-b">
             <SidebarMenu>
               <SidebarMenuItem>

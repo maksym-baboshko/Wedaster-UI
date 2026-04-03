@@ -29,9 +29,10 @@ apps/
   react-smoke/       Vite + React smoke app for non-Next.js usage
 
 packages/
-  ui/            Main publishable React component library
-  eslint-config/     Shared ESLint configurations
-  typescript-config/ Shared TypeScript configurations
+  ui/                Main publishable React component library
+  configs/
+    eslint-config/   Shared ESLint configurations
+    typescript-config/ Shared TypeScript configurations
 ```
 
 **Published package:** `@wedaster/ui`

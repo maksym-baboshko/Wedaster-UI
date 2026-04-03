@@ -12,7 +12,7 @@ Wedaster UI needs one source of truth for component code, verification apps, and
 The repository uses pnpm workspaces and Turborepo with:
 
 - `packages/ui` as the single publishable runtime package
-- `packages/eslint-config` and `packages/typescript-config` as shared infra
+- `packages/configs/eslint-config` and `packages/configs/typescript-config` as shared infra
 - `apps/web`, `apps/storybook`, and `apps/react-smoke` as verification consumers
 
 ## Consequences
