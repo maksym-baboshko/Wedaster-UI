@@ -1,7 +1,6 @@
 {
   "extends": "@workspace/typescript-config/nextjs.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@wedaster/ui": ["../../packages/ui/src/index.ts"],
